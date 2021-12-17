@@ -6,7 +6,7 @@ const {
 const Users = require('../users/users-model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = 'shhh'
+const JWT_SECRET = process.env.SECRET ||'shhh'
 
 router.post('/register', checkUsernameFree, (req, res, next) => {
   /*

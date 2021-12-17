@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = 'shhh'
+const JWT_SECRET = process.env.SECRET || 'shhh'
 module.exports = (req, res, next) => {
   /*
     IMPLEMENT
