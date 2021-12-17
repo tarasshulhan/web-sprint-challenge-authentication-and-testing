@@ -35,7 +35,7 @@ router.post('/register', checkUsernameFree, (req, res, next) => {
       the response body should include a string exactly as follows: "username taken".
   */
   const {username, password} = req.body
-  if(!username || !password){next({status: 400, message: "username and password required"})}
+  if(!username || !username.trim() || !password || !password.trim()){next({status: 400, message: "username and password required"})}
   const hash = bcrypt.hashSync(password, 8)
   Users.add({username, password: hash})
     .then(newUser => {
@@ -69,7 +69,7 @@ router.post('/login', checkUsernameExists, (req, res, next) => {
       the response body should include a string exactly as follows: "invalid credentials".
   */
   const {username, password} = req.body
-  if(!username || !password){next({status: 400, message: "username and password required"})}
+  if(!username || !password){next({status: 400, message: "username and password required"})}else{
   if (bcrypt.compareSync(password, req.user.password)) {
     const token = buildToken(req.user)
       res.json(
@@ -80,6 +80,7 @@ router.post('/login', checkUsernameExists, (req, res, next) => {
     }else{
       next({status: 401, message: 'invalid credentials'})
     }
+  }
 });
 
 function buildToken(user){
