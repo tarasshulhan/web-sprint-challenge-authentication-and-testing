@@ -1,6 +1,9 @@
 const User = require('../users/users-model')
 
 async function checkUsernameFree(req, res, next) {
+  if(!req.body.username || !req.body.username.trim() || !req.body.password || !req.body.password.trim()){
+    next({status: 400, message: "username and password required"})
+  }else{
     try{
       const user = await User.findByUsername(req.body.username)
       if(!user){
@@ -12,8 +15,12 @@ async function checkUsernameFree(req, res, next) {
       next(err)
     }
   }
+}
 
 async function checkUsernameExists(req, res, next) {
+  if(!req.body.username || !req.body.username.trim() || !req.body.password || !req.body.password.trim()){
+    next({status: 400, message: "username and password required"})
+  }else{
     try{
         const user = await User.findByUsername(req.body.username)
         if(!user) {
@@ -25,6 +32,7 @@ async function checkUsernameExists(req, res, next) {
       }catch(err){
        next(err)
       }
+  }
 }
 
 module.exports ={
